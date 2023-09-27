@@ -1,4 +1,7 @@
+using System.Text.RegularExpressions;
+
 namespace DesafioFundamentos.Models
+
 {
     public class Estacionamento
     {
@@ -18,16 +21,26 @@ namespace DesafioFundamentos.Models
             Console.WriteLine("Digite a placa do veículo para estacionar:");
             string veiculo = Console.ReadLine();
 
-            if (veiculos.Any(x => x.ToUpper() == veiculo.ToUpper()))
-            {
-            Console.WriteLine("Erro, esse veículo já está estacionado aqui. Confira se digitou a placa corretamente");
+            if (Regex.IsMatch(veiculo, @"[A-Z]{3}-[0-9]{4}$", RegexOptions.IgnoreCase) || Regex.IsMatch(veiculo, @"[A-Z]{3}[0-9]{1}[A-Z]{1}[0-9]{2}$", RegexOptions.IgnoreCase)) 
+            {  
+                if (veiculos.Any(x => x.ToUpper() == veiculo.ToUpper()))
+                {
+                Console.WriteLine("Erro, esse veículo já está estacionado aqui. Confira se digitou a placa corretamente");
+                }
+                else
+                {
+                veiculos.Add(veiculo);
+                Console.WriteLine("Veiculo cadastrado com sucesso!");
+                }
+                
             }
             else
             {
-            veiculos.Add(veiculo);
-            Console.WriteLine("Veiculo cadastrado com sucesso!");
+                Console.WriteLine("A placa informada é inválida, por favor informe uma placa no modelo ABC-1234 ou no modelo Mercosul ABC1D23");
             }
+           
         }
+
 
         public void RemoverVeiculo()
         {
@@ -52,7 +65,7 @@ namespace DesafioFundamentos.Models
             }
             else
             {
-                Console.WriteLine("Desculpe, esse veículo não está estacionado aqui. Confira se digitou a placa corretamente");
+                Console.WriteLine("Desculpe, esse veículo não está estacionado aqui ou a placa é inválida. Confira se digitou a placa corretamente");
             }
         }
 
